@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreOrderRequest;
 use App\Models\Order;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class OrderController extends Controller
 {
+    public function __construct(protected OrderService $orderService)
+    {
+        $this->orderService = $orderService;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -35,16 +41,11 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreOrderRequest $request)
     {
-        $validatedData = $request->validate([
-            'code' => ['required','string','max:255','unique:orders,code'],
-            'customer_id' => ['required','integer','exists:customers,id'],
-            'total' => ['required','numeric','min:0'],
-            'status' => ['required','string','in:draft,confirmed,canceled'],  
-        ]);
+        $validatedData = $request->validated();
 
-       $order = Order::create($validatedData);
+       $order = $this->orderService->crear($validatedData);
 
        return $order;
     }

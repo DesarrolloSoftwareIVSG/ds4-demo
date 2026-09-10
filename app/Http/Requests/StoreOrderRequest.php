@@ -12,7 +12,7 @@ class StoreOrderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,17 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'code' => ['required','string','max:255','unique:orders,code'],
+            'customer_id' => ['required','integer','exists:customers,id'],
+            'total' => ['required','numeric','min:0'],
+            'status' => ['required','string','in:draft,confirmed,canceled'],  
+        ];
+    }
+
+     public function messages(): array
+    {
+        return [
+            'code.unique' => 'Ya existe un pedido con ese código.',
         ];
     }
 }
