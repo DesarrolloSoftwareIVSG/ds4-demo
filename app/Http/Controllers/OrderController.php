@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderRequest;
+use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Attributes\Controllers\Authorize;
 use Illuminate\Validation\Rule;
 
 class OrderController extends Controller
@@ -29,7 +31,7 @@ class OrderController extends Controller
                 })
                 ->paginate(25);
 
-        return $data;
+        return OrderResource::collection($data);//$data;
 
          // if ($status) {
         //     return Order::where('status', $status)->paginate(25);
@@ -53,9 +55,10 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
+    #[Authorize('view', 'order')]
     public function show(Order $order)
     {
-        return $order->load('customer');
+        return new OrderResource($order->load('customer')); //$order->load('customer');
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\Regla500Exception;
 use App\Models\Order;
 use App\Services\OrderService;
 
@@ -11,7 +12,7 @@ it('tira una excepcion si la orden tiene un total mayor a 500 y laa orden no se 
 
     
     expect(fn () => app(OrderService::class)->confirmar($order))
-        ->toThrow(RuntimeException::class);
+        ->toThrow(Regla500Exception::class);
 
 
     expect($order->fresh()->status)->toBe('draft');

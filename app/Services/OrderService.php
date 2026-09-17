@@ -21,7 +21,7 @@ class OrderService
 
         //if
         if($order->total > 500) {
-            throw new \RuntimeException('Error no pueden haber ordenes mayores a 500');
+            throw new \App\Exceptions\Regla500Exception();
         }
    
 
