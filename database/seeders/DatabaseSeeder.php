@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
         // User::factory(10)->create();
         User::truncate();
         Order::truncate();
@@ -42,7 +43,7 @@ class DatabaseSeeder extends Seeder
         $cajero->assignRole($roleCajero);
 
         $permission = Permission::create(['name' => 'view orders']);
-        $roleAdmin->givePermissionTo($permission);
+        $roleCajero->givePermissionTo($permission);
 
         Order::factory(1000)->create();
 
