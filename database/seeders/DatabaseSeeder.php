@@ -7,6 +7,8 @@ use App\Models\Order;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,11 +23,24 @@ class DatabaseSeeder extends Seeder
         User::truncate();
         Order::truncate();
         Customer::truncate();
+        Role::truncate();
+        Permission::truncate();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+       $admin = User::factory()->create([
+            'name' => 'admin',
+            'email' => 'admin@example.com',
         ]);
+        $cajero = User::factory()->create([
+            'name' => 'cajero',
+            'email' => 'cajero@example.com',
+        ]);
+
+        $roleAdmin = Role::create(['name' => 'admin']);
+        $roleCajero = Role::create(['name' => 'cajero']);
+
+        $admin->assignRole($roleAdmin);
+        $cajero->assignRole($roleCajero);
+
 
         Order::factory(1000)->create();
 

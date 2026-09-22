@@ -27,7 +27,7 @@ class OrderPolicy
 
         //if()
 
-        return true;
+        return $user->hasRole('admin');
     }
 
     /**
