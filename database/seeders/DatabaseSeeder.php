@@ -41,6 +41,8 @@ class DatabaseSeeder extends Seeder
         $admin->assignRole($roleAdmin);
         $cajero->assignRole($roleCajero);
 
+        $permission = Permission::create(['name' => 'view orders']);
+        $roleAdmin->givePermissionTo($permission);
 
         Order::factory(1000)->create();
 

@@ -25,9 +25,11 @@ class OrderPolicy
 
         //if()
 
-        //if()
+        if($user->hasRole('admin')) {
+            return true;
+        }
 
-        return $user->hasRole('admin');
+        return $user->can('view orders');
     }
 
     /**
