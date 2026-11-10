@@ -21,12 +21,13 @@ class DatabaseSeeder extends Seeder
     {
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
         // User::factory(10)->create();
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         User::truncate();
         Order::truncate();
         Customer::truncate();
         Role::truncate();
         Permission::truncate();
-
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
        $admin = User::factory()->create([
             'name' => 'admin',
             'email' => 'admin@example.com',
