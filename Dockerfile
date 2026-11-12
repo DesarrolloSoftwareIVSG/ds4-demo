@@ -1,7 +1,6 @@
 FROM serversideup/php:8.4-fpm-nginx
 
-ENV PHP_OPCACHE_ENABLE=1 \
-    AUTORUN_ENABLED=true
+ENV PHP_OPCACHE_ENABLE=1 AUTORUN_ENABLED=true
 
 WORKDIR /var/www/html
 
@@ -11,7 +10,6 @@ RUN composer install --no-dev --no-scripts --no-autoloader --no-interaction --pr
 
 # Código de la aplicación
 COPY --chown=www-data:www-data . .
-RUN composer dump-autoload --optimize --no-dev \
- && php artisan package:discover --ansi
+RUN composer dump-autoload --optimize --no-dev && php artisan package:discover --ansi
 
 USER www-data
